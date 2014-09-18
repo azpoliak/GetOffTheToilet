@@ -1,6 +1,7 @@
 package com.gott.adamp.getoffthetoilet;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,18 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 import android.os.CountDownTimer;
 import android.widget.TextView;
-import java.util.Timer;
 
 
-import java.util.List;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-
-
-public class GOTTActivity extends Activity {
+public class MainActivity extends Activity {
 
 
     private long timeElapsed;
@@ -31,7 +25,7 @@ public class GOTTActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gott);
+        setContentView(R.layout.activity_main);
 
         text = (TextView) this.findViewById(R.id.timeLeft);
 
@@ -95,19 +89,21 @@ public class GOTTActivity extends Activity {
     }
 
     public void startClock(View view) {
-        if (!timerHasStarted) {
+        /*if (!timerHasStarted) {
             timer.start();
             timerHasStarted = true;
             text.setText("Time Left: " + String.valueOf(countDownInMinutes));
             timer.onTick(countDownInMinutes * 60000);
-
 
         } else {
             timer.cancel();
             timerHasStarted = false;
             text.setText("Time Left: " + String.valueOf(countDownInMinutes));
             timer.onTick(countDownInMinutes * 60000);
-        }
+        } */
+        Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        startActivity(myIntent);
     }
 
     private void turnOffPhone() {
