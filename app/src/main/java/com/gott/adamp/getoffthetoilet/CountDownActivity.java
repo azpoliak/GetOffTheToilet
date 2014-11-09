@@ -12,7 +12,7 @@ public class CountDownActivity  extends Activity{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_countdown);
+       // setContentView(R.layout.activity_countdown);
 
 
         //Drawable d = ;

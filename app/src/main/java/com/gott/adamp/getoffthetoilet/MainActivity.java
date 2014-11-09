@@ -6,16 +6,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.os.CountDownTimer;
 import android.widget.TextView;
+import 	android.os.PowerManager;
+import android.content.Context;
 
 
 public class MainActivity extends Activity {
 
 
+    public static final String ACTION_SHUTDOWN = "android.intent.action.ACTION_SHUTDOWN";
     private long timeElapsed;
     public static long countDownInMinutes;
     private boolean timerHasStarted = false;
@@ -33,9 +38,9 @@ public class MainActivity extends Activity {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.minutes_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -51,21 +56,6 @@ public class MainActivity extends Activity {
 
             }
         });
-
-        timer = new CountDownTimer(countDownInMinutes * 60000 , 1000) {
-            public void onTick(long millisUntilFinished) {
-                text.setText("Seconds remaining: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                text.setText("Finished");
-                //TODO - set up turning off the phone
-                turnOffPhone();
-            }
-        };
-        timer.start();
-
-
     }
 
 
@@ -89,24 +79,30 @@ public class MainActivity extends Activity {
     }
 
     public void startClock(View view) {
-        /*if (!timerHasStarted) {
-            timer.start();
-            timerHasStarted = true;
-            text.setText("Time Left: " + String.valueOf(countDownInMinutes));
-            timer.onTick(countDownInMinutes * 60000);
+        System.out.println(countDownInMinutes);
+        timer = new CountDownTimer(countDownInMinutes * 60000 , 1000) {
+            public void onTick(long millisUntilFinished) {
+                text.setText("Seconds remaining: " + millisUntilFinished / 1000);
+            }
 
-        } else {
-            timer.cancel();
-            timerHasStarted = false;
-            text.setText("Time Left: " + String.valueOf(countDownInMinutes));
-            timer.onTick(countDownInMinutes * 60000);
-        } */
-        Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        startActivity(myIntent);
+            public void onFinish() {
+                System.out.println("finished");
+                text.setText("Finished");
+                //TODO - set up turning off the phone
+                turnOffPhone();
+            }
+        };
+        timer.start();
     }
 
     private void turnOffPhone() {
+
+       // Intent myIntent = new Intent(MainActivity.this, ACTION_SHUTDOWN);
+       // startActivity(myIntent);
+        Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
+        for (int i = 0; i < 10000; i++) {
+            startActivity(myIntent);
+        }
 
     }
 
