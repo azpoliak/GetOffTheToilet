@@ -179,7 +179,7 @@ public class MainActivity extends Activity {
      * @param c the context passed by the doNotificationLogic method
      */
     public void sendOneMinWarning(Context c) {
-        String title = "GetOffTheToilet";
+        String title = "GetOffTheToilet - 1 Minute Warning till Restart.";
         String subject = "GOTT - Warning";
         String body = "Restarting in a minute";
         NotificationManager NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
