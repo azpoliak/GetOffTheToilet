@@ -17,3 +17,8 @@ If you have any feedback or suggesstions, feel free to reach us at azpoliak@gmai
 
 
 Adam & Dan
+
+
+---
+Comment regarding app's icon:
+The picture comes from the following website: http://www.masterfile.com/stock-photography/image/400-04077166/3d-puppet-sitting-with-book-on-toilet-bowl.-Objects-over-white. I copy and pasted it from the google images results page.
