@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,6 +38,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         text = (TextView) this.findViewById(R.id.timeLeft);
+
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+        if (checkBox.isChecked()) {
+            checkBox.setChecked(false);
+        }
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner_minutes);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -114,7 +120,7 @@ public class MainActivity extends Activity {
                 }
 
                 public void onFinish() {
-                //    turnOffPhone();
+
                     //fix this cause app crashes now when resetting
                     countDownInMinutes = position + 1;
                     text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
@@ -123,6 +129,10 @@ public class MainActivity extends Activity {
 
                     text.setText("Finished");
                     //TODO - set up turning off the phone
+                    final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+                    if (checkBox.isChecked()) {
+                        turnOffPhone();
+                    }
                 }
             };
             timer.start();
@@ -142,7 +152,7 @@ public class MainActivity extends Activity {
         // startActivity(myIntent);
         Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
         for (int i = 0; i < 10000; i++) {
-         //   startActivity(myIntent);
+            startActivity(myIntent);
         }
 
     }
