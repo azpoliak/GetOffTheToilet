@@ -11,4 +11,15 @@
         android:layout_width="wrap_content"
         ></ImageView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="392dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="RESTART YOUR PHONE!"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:enabled="false"
+        android:textSize="75dip"
+        android:textStyle="bold" />
+
 </LinearLayout>

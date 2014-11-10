@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
         } else {
             startCountDownNotification(getApplicationContext());
             //changed from 60000 to 60 just for testing purposes
-            timer = new CountDownTimer(countDownInMinutes * 60000, 1000) {
+            timer = new CountDownTimer(countDownInMinutes * 6000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     text.setText("Seconds remaining: " + millisUntilFinished / 1000);
                     if ((millisUntilFinished / 1000) == 60) {
@@ -132,6 +132,9 @@ public class MainActivity extends Activity {
                     final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
                     if (checkBox.isChecked()) {
                         turnOffPhone();
+                    } else {
+                        Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
+                        startActivity(myIntent);
                     }
                 }
             };
