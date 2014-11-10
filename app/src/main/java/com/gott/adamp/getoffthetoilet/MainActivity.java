@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
     public void startClock(View view) {
         //toggle button
         if (timerHasStarted) {
-            //stop the countdown
+            //stops the countdown
             timer.cancel();
             countDownInMinutes = position + 1;
             text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
