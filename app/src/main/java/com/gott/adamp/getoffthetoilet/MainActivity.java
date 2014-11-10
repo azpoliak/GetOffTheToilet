@@ -164,7 +164,7 @@ public class MainActivity extends Activity {
         mNotifyBuilder = new Notification.Builder(this)
                 .setContentTitle("GOTT - COUNTDOWN")
                 .setContentText("You have x seconds left")
-                .setSmallIcon(R.drawable.ic_launcher);
+                .setSmallIcon(R.drawable.phone_on_toilet);
 
         // Because the ID remains unchanged, the existing notification is
         // updated.
