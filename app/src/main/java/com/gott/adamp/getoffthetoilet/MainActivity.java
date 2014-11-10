@@ -148,7 +148,7 @@ public class MainActivity extends Activity {
     }
 
     public void updateCountdownNotification(Context c, long minutesAsMillis) {
-        mNotifyBuilder.setContentText("" + minutesAsMillis / 1000)
+        mNotifyBuilder.setContentText("" + minutesAsMillis  / 1000)
                 .setNumber((int)countDownInMinutes)
                 .setContentText("Resarting in " + minutesAsMillis + " seconds");
         mNotificationManager.notify(1, mNotifyBuilder.build());
