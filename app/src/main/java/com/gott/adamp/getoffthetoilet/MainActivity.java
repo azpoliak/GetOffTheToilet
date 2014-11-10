@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class MainActivity extends Activity {
     private boolean timerHasStarted = false;
     private TextView text;
     private CountDownTimer timer;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +47,10 @@ public class MainActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int inputPosition, long arg3) {
+                position = inputPosition;
                 countDownInMinutes = position + 1;
-                text.setText(String.valueOf(countDownInMinutes) + " Minutes till Shutdown");
+                text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
             }
 
             @Override
@@ -80,8 +83,12 @@ public class MainActivity extends Activity {
     public void startClock(View view) {
         //toggle button
         if (timerHasStarted) {
-
-
+            //stop the countdown
+            timer.cancel();
+            countDownInMinutes = position + 1;
+            text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
+            Button b1 = (Button)this.findViewById(R.id.button);
+            b1.setText("START COUNTDOWN");
             timerHasStarted = false;
         } else {
             startCountDownNotification(getApplicationContext());
@@ -107,6 +114,8 @@ public class MainActivity extends Activity {
                 change to pause countdown
            */
             timerHasStarted = true;
+            Button b1 = (Button)this.findViewById(R.id.button);
+            b1.setText("CANCEL COUNTDOWN");
         }
     }
 
