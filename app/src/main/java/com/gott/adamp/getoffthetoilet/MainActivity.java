@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
     private CountDownTimer timer;
     private int position;
     private Button b1;
+    private NotificationManager mNotificationManager;
+    private Notification.Builder mNotifyBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,8 @@ public class MainActivity extends Activity {
                     if ((millisUntilFinished / 1000) == 60) {
                         sendOneMinWarning(getApplication());
                     }
+                    updateCountdownNotification(getApplicationContext(), millisUntilFinished / 1000);
+
                 }
 
                 public void onFinish() {
@@ -143,8 +147,30 @@ public class MainActivity extends Activity {
 
     }
 
+    public void updateCountdownNotification(Context c, long minutesAsMillis) {
+        mNotifyBuilder.setContentText("" + minutesAsMillis / 1000)
+                .setNumber((int)countDownInMinutes)
+                .setContentText("Resarting in " + minutesAsMillis + " seconds");
+        mNotificationManager.notify(1, mNotifyBuilder.build());
+    }
+
     public void startCountDownNotification(Context c) {
 
+
+        mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// Sets an ID for the notification, so it can be updated
+        int notifyID = 1;
+        mNotifyBuilder = new Notification.Builder(this)
+                .setContentTitle("GOTT - COUNTDOWN")
+                .setContentText("You have x seconds left")
+                .setSmallIcon(R.drawable.ic_launcher);
+
+        // Because the ID remains unchanged, the existing notification is
+        // updated.
+        mNotificationManager.notify(
+                notifyID,
+                mNotifyBuilder.build());
     }
 
     /**
