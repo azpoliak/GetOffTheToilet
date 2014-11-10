@@ -12,4 +12,8 @@ We have so far created a basic 1 activity android app. Currently, it only includ
 
 Follow our progress here as we hope to help you stop wasting time in the bathroom. 
 
+If you have any feedback or suggesstions, feel free to reach us at azpoliak@gmail.com
+
+
+
 Adam & Dan
