@@ -1,21 +1,20 @@
 package com.gott.adamp.getoffthetoilet;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.os.CountDownTimer;
+import android.widget.Spinner;
 import android.widget.TextView;
-import 	android.os.PowerManager;
-import android.content.Context;
-
 
 public class MainActivity extends Activity {
 
@@ -79,34 +78,69 @@ public class MainActivity extends Activity {
     }
 
     public void startClock(View view) {
-        System.out.println(countDownInMinutes);
-        timer = new CountDownTimer(countDownInMinutes * 60000 , 1000) {
-            public void onTick(long millisUntilFinished) {
-                text.setText("Seconds remaining: " + millisUntilFinished / 1000);
-            }
+        //toggle button
+        if (timerHasStarted) {
 
-            public void onFinish() {
-                System.out.println("finished");
-                text.setText("Finished");
-                //TODO - set up turning off the phone
-                turnOffPhone();
-            }
-        };
-        timer.start();
+
+            timerHasStarted = false;
+        } else {
+            startCountDownNotification(getApplicationContext());
+            //changed from 60000 to 60 just for testing purposes
+            timer = new CountDownTimer(countDownInMinutes * 60000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    text.setText("Seconds remaining: " + millisUntilFinished / 1000);
+                    if ((millisUntilFinished / 1000) == 60) {
+                        sendOneMinWarning(getApplication());
+                    }
+                }
+
+                public void onFinish() {
+                    turnOffPhone();
+
+                    text.setText("Finished");
+                    //TODO - set up turning off the phone
+                }
+            };
+            timer.start();
+            /*TO-DO
+                Disable starting another countdown
+                change to pause countdown
+           */
+            timerHasStarted = true;
+        }
     }
 
     private void turnOffPhone() {
 
-       // Intent myIntent = new Intent(MainActivity.this, ACTION_SHUTDOWN);
-       // startActivity(myIntent);
+        // Intent myIntent = new Intent(MainActivity.this, ACTION_SHUTDOWN);
+        // startActivity(myIntent);
         Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
         for (int i = 0; i < 10000; i++) {
-            startActivity(myIntent);
+         //   startActivity(myIntent);
         }
 
     }
 
+    public void startCountDownNotification(Context c) {
 
+    }
 
+    /**
+     * Method to make the notification that they're running low
+     *
+     * @param c the context passed by the doNotificationLogic method
+     */
+    public void sendOneMinWarning(Context c) {
+        String title = "GetOffTheToilet";
+        String subject = "Warning";
+        String body = "Restarting in a minute";
+        NotificationManager NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify=new Notification(R.drawable.ic_launcher
+                ,title,System.currentTimeMillis());
+        PendingIntent pending=PendingIntent.getActivity(
+                getApplicationContext(),0, new Intent(),0);
+        notify.setLatestEventInfo(getApplicationContext(),subject,body,pending);
+        NM.notify(0, notify);
 
+    }
 }
