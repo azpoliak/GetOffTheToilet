@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     private TextView text;
     private CountDownTimer timer;
     private int position;
+    private Button b1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,13 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public Button getButton() {
+        if (b1 == null) {
+            b1 = (Button)this.findViewById(R.id.button);
+        }
+        return b1;
+    }
+
     public void startClock(View view) {
         //toggle button
         if (timerHasStarted) {
@@ -102,7 +110,12 @@ public class MainActivity extends Activity {
                 }
 
                 public void onFinish() {
-                    turnOffPhone();
+                //    turnOffPhone();
+                    //fix this cause app crashes now when resetting
+                    countDownInMinutes = position + 1;
+                    text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
+                    b1 = getButton();
+                    b1.setText("START COUNTDOWN");
 
                     text.setText("Finished");
                     //TODO - set up turning off the phone
@@ -141,10 +154,10 @@ public class MainActivity extends Activity {
      */
     public void sendOneMinWarning(Context c) {
         String title = "GetOffTheToilet";
-        String subject = "Warning";
+        String subject = "GOTT - Warning";
         String body = "Restarting in a minute";
         NotificationManager NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notify=new Notification(R.drawable.ic_launcher
+        Notification notify=new Notification(R.drawable.phone_on_toilet
                 ,title,System.currentTimeMillis());
         PendingIntent pending=PendingIntent.getActivity(
                 getApplicationContext(),0, new Intent(),0);
