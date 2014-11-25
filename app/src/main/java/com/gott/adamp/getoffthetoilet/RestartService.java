@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 public class RestartService extends Service {
     private long timeElapsed;
-    public static long countDownInMinutes;
     private boolean timerHasStarted = false;
     private TextView text;
     private CountDownTimer timer;
@@ -21,6 +20,7 @@ public class RestartService extends Service {
     private Button b1;
     private NotificationManager mNotificationManager;
     private Notification.Builder mNotifyBuilder;
+    private long countDownInMinutes;
 
     public RestartService() {
     }
@@ -34,16 +34,18 @@ public class RestartService extends Service {
     /** Called when the service is being created. */
     @Override
     public void onCreate() {
-        Log.d("Android : ", "OnCreate() event");
-        turnOff();
+        Log.d("RestartService : ", "OnCreate() event");
+
+  //      turnOff();
 
     }
     /** The service is starting, due to a call to startService() */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+        countDownInMinutes = intent.getLongExtra("countDown", 1);
 
-        //   turnOff();
+        turnOff();
 
         return START_STICKY;
     }
@@ -53,7 +55,7 @@ public class RestartService extends Service {
     private void turnOff() {
         //changed from 60000 to 60 just for testing purposes
 
-        timer = new CountDownTimer(1 * 30000, 1000) {
+        timer = new CountDownTimer(countDownInMinutes * 60000, 1000) {
             public void onTick(long millisUntilFinished) {
                 Log.d("onTick : ", "" + millisUntilFinished);
                 //text.setText("Seconds remaining: " + millisUntilFinished / 1000);

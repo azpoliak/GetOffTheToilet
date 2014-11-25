@@ -108,7 +108,9 @@ public class MainActivity extends Activity {
             b1.setText("START COUNTDOWN");
             timerHasStarted = false;
         } else {
-            startService(new Intent(getBaseContext(), RestartService.class));
+            Intent myIntent = new Intent(getBaseContext(), RestartService.class);
+            myIntent.putExtra("countDown", countDownInMinutes);
+            startService(myIntent);
          //   startCountDownNotification(getApplicationContext());
             //changed from 60000 to 60 just for testing purposes
           /*  timer = new CountDownTimer(countDownInMinutes * 6000, 1000) {
