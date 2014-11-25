@@ -100,16 +100,18 @@ public class MainActivity extends Activity {
         //toggle button
         if (timerHasStarted) {
             //stop the countdown
-            timer.cancel();
+            stopService(new Intent(getBaseContext(), RestartService.class));
+          //  timer.cancel();
             countDownInMinutes = position + 1;
             text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
             Button b1 = (Button)this.findViewById(R.id.button);
             b1.setText("START COUNTDOWN");
             timerHasStarted = false;
         } else {
-            startCountDownNotification(getApplicationContext());
+            startService(new Intent(getBaseContext(), RestartService.class));
+         //   startCountDownNotification(getApplicationContext());
             //changed from 60000 to 60 just for testing purposes
-            timer = new CountDownTimer(countDownInMinutes * 6000, 1000) {
+          /*  timer = new CountDownTimer(countDownInMinutes * 6000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     text.setText("Seconds remaining: " + millisUntilFinished / 1000);
                     if ((millisUntilFinished / 1000) == 60) {
