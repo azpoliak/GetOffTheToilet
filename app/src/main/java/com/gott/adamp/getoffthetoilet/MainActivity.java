@@ -3,8 +3,6 @@ package com.gott.adamp.getoffthetoilet;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -59,7 +57,8 @@ public class MainActivity extends Activity {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int inputPosition, long arg3) {
                 position = inputPosition;
                 countDownInMinutes = position + 1;
-                text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
+                String msg = countDownInMinutes > 1 ? "Minutes" : "Minute";
+                text.setText(String.valueOf(countDownInMinutes) + " " + msg + " till Shutdown");
             }
 
             @Override
@@ -101,7 +100,7 @@ public class MainActivity extends Activity {
         if (timerHasStarted) {
             //stop the countdown
             stopService(new Intent(getBaseContext(), RestartService.class));
-          //  timer.cancel();
+
             countDownInMinutes = position + 1;
             text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
             Button b1 = (Button)this.findViewById(R.id.button);
@@ -111,101 +110,10 @@ public class MainActivity extends Activity {
             Intent myIntent = new Intent(getBaseContext(), RestartService.class);
             myIntent.putExtra("countDown", countDownInMinutes);
             startService(myIntent);
-         //   startCountDownNotification(getApplicationContext());
-            //changed from 60000 to 60 just for testing purposes
-          /*  timer = new CountDownTimer(countDownInMinutes * 6000, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    text.setText("Seconds remaining: " + millisUntilFinished / 1000);
-                    if ((millisUntilFinished / 1000) == 60) {
-                        sendOneMinWarning(getApplication());
-                    }
-                    updateCountdownNotification(getApplicationContext(), millisUntilFinished / 1000);
 
-                }
-
-                public void onFinish() {
-
-                    //fix this cause app crashes now when resetting
-                    countDownInMinutes = position + 1;
-                    text.setText(String.valueOf(countDownInMinutes) + " Minute(s) till Shutdown");
-                    b1 = getButton();
-                    b1.setText("START COUNTDOWN");
-
-                    text.setText("Finished");
-                    //TODO - set up turning off the phone
-                    final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
-                    if (checkBox.isChecked()) {
-                        turnOffPhone();
-                    } else {
-                        Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
-                        startActivity(myIntent);
-                    }
-                }
-            };
-            timer.start();
-            /*TO-DO
-                Disable starting another countdown
-                change to pause countdown
-           */
             timerHasStarted = true;
             Button b1 = (Button)this.findViewById(R.id.button);
             b1.setText("CANCEL COUNTDOWN");
         }
-    }
-
-    private void turnOffPhone() {
-
-        // Intent myIntent = new Intent(MainActivity.this, ACTION_SHUTDOWN);
-        // startActivity(myIntent);
-        Intent myIntent = new Intent(MainActivity.this, CountDownActivity.class);
-        for (int i = 0; i < 10000; i++) {
-            startActivity(myIntent);
-        }
-
-    }
-
-    public void updateCountdownNotification(Context c, long minutesAsMillis) {
-        mNotifyBuilder.setContentText("" + minutesAsMillis / 1000)
-                .setNumber((int)countDownInMinutes)
-                .setContentText("Restarting device in " + minutesAsMillis + " seconds");
-        mNotificationManager.notify(1, mNotifyBuilder.build());
-    }
-
-    public void startCountDownNotification(Context c) {
-
-
-        mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// Sets an ID for the notification, so it can be updated
-        int notifyID = 1;
-        mNotifyBuilder = new Notification.Builder(this)
-                .setContentTitle("GOTT - COUNTDOWN")
-                .setContentText("You have x seconds left")
-                .setSmallIcon(R.drawable.phone_on_toilet);
-
-        // Because the ID remains unchanged, the existing notification is
-        // updated.
-        mNotificationManager.notify(
-                notifyID,
-                mNotifyBuilder.build());
-    }
-
-    /**
-     * Method to make the notification that they're running low
-     *
-     * @param c the context passed by the doNotificationLogic method
-     */
-    public void sendOneMinWarning(Context c) {
-        String title = "GetOffTheToilet - 1 Minute Warning till Restart.";
-        String subject = "GOTT - Warning";
-        String body = "Restarting in a minute";
-        NotificationManager NM=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notify=new Notification(R.drawable.phone_on_toilet
-                ,title,System.currentTimeMillis());
-        PendingIntent pending=PendingIntent.getActivity(
-                getApplicationContext(),0, new Intent(),0);
-        notify.setLatestEventInfo(getApplicationContext(),subject,body,pending);
-        NM.notify(0, notify);
-
     }
 }
