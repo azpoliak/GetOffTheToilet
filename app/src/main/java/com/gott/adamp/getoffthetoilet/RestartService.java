@@ -59,8 +59,9 @@ public class RestartService extends Service {
         startCountDownNotification(getApplicationContext());
         //changed from 60000 to 60 just for testing purposes
         timer = new CountDownTimer(countDownInMinutes * 60000, 1000) {
+
             public void onTick(long millisUntilFinished) {
-                Log.d("onTick : ", "" + millisUntilFinished);
+                Log.d("tick:", "" + millisUntilFinished);
                 if ((millisUntilFinished / 1000) == 30) {
                     Toast.makeText(getApplicationContext(), "30 seconds left", Toast.LENGTH_LONG);
                 } else if ((millisUntilFinished / 1000) == 60) {
@@ -115,9 +116,19 @@ public class RestartService extends Service {
     }
 
     public void updateCountdownNotification(Context c, long minutesAsMillis) {
-        mNotifyBuilder.setContentText("" + minutesAsMillis / 1000)
-                .setNumber((int)countDownInMinutes)
-                .setContentText("Restarting device in " + minutesAsMillis + " seconds");
+        String minutesAsMillisString = "";
+        long minutes = 0;
+        if (minutesAsMillis > 60) {
+            minutes = minutesAsMillis / 60;
+            minutesAsMillis = minutesAsMillis % 60;
+            minutesAsMillisString = "" + minutesAsMillis;
+        } else if (minutesAsMillis < 10 && minutes == 0) {
+            minutesAsMillisString = "0" + minutesAsMillis;
+        } else {
+            minutesAsMillisString = "" + minutesAsMillis;
+        }
+        mNotifyBuilder.setNumber((int)countDownInMinutes)
+                .setContentText("Restarting device in " + minutes + ":"  + minutesAsMillisString);
         mNotificationManager.notify(1, mNotifyBuilder.build());
     }
 
